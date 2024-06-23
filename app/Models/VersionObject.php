@@ -11,7 +11,7 @@ class VersionObject extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id']; //TODO? 
+    protected $guarded = ['id'];
 
     protected $fillable = [
         'utc_timestamp',
@@ -49,6 +49,9 @@ class VersionObject extends Model
         $key = $key[0];
         $value = $value[0];
 
+        if (!self::validateValue($value))
+            return null;
+
         if (is_array($value))
             $value = json_encode($value);
 
@@ -62,15 +65,27 @@ class VersionObject extends Model
 
     public static function search($key, $timestamp)
     {
-        //TODO. check if timestap
-
         $versionObject = VersionObject::where("key", $key);
 
-        if ($timestamp) 
+        if ($timestamp)
             $versionObject->where("utc_timestamp", $timestamp);
 
         return $versionObject
             ->orderBy("utc_timestamp", "desc")
             ->first();
+    }
+
+    public static function validateValue($value)
+    {
+        if (!in_array(gettype($value), ["string", "array"]))
+            return false;
+
+        if (is_string($value))
+            $value = trim($value);
+
+        if ($value === "")
+            return false;
+
+        return true;
     }
 }

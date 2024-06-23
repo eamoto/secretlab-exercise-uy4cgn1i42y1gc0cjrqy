@@ -26,7 +26,11 @@ class VersionObjectController extends Controller
             "values" => array_values($request->all()),
         ], [
             'keys' => 'required|array|max:1|min:1',
+            'keys.0' => 'max:255',
             'values.0' => 'version_object_value',
+        ], [], [
+            'keys.0' => "key",
+            'values.0' => "value",
         ]);
 
         if ($validator->fails())

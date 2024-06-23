@@ -15,7 +15,7 @@ class APIResponse
     {
         return response()->json(
             self::generate(null, array_merge(...array_values($validator->errors()->getMessages()))),
-            404
+            422
         );
     }
 
