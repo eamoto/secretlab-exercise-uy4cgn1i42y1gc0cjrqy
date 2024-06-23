@@ -71,7 +71,7 @@ class VersionObject extends Model
             $versionObject->where("utc_timestamp", $timestamp);
 
         return $versionObject
-            ->orderBy("utc_timestamp", "desc")
+            ->orderBy("id", "desc")
             ->first();
     }
 

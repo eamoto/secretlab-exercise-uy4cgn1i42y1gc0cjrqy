@@ -38,7 +38,7 @@ class APIResponse
             "messages" => $msg
         ];
 
-        if ($data)
+        if ($data !== null)
             $result["data"] = $data;
 
         return $result;
