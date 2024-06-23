@@ -26,16 +26,8 @@ class VersionObjectController extends Controller
             "values" => array_values($request->all()),
         ], [
             'keys' => 'required|array|max:1|min:1',
-            'keys.0' => 'required',
-            'values.0' => 'required',
-        ], [], [
-            "keys.0" => "key",
-            "values.0" => "value",
+            'values.0' => 'version_object_value',
         ]);
-
-        //TODO. validation if array or string
-        //TODO. {"111" : []}
-        //TODO. empty string value
 
         if ($validator->fails())
             return APIResponse::abortValidator($validator);
@@ -60,8 +52,6 @@ class VersionObjectController extends Controller
 
         $timestamp = request()->get("timestamp");
         $versionObject = VersionObject::search($key, $timestamp);
-
-        //TODO. timestamp should be timestamp
 
         if (!$versionObject)
             return APIResponse::abort404();

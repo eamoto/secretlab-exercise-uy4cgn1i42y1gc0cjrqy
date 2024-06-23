@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Validators\VersionObjectValue;
 use Illuminate\Support\ServiceProvider;
+use Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Validator::extend("version_object_value", VersionObjectValue::class, "Invalid object value.");
     }
 }
