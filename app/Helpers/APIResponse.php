@@ -3,11 +3,8 @@ namespace App\Helpers;
 
 class APIResponse
 {
-    public static function abort404($msg = null)
+    public static function abort404($msg = "Page Not Found.")
     {
-        if (!$msg)
-            $msg = "Page Not Found.";
-
         return response()->json(self::generate(null, $msg), 404);
     }
 
@@ -19,11 +16,8 @@ class APIResponse
         );
     }
 
-    public static function abort($msg = null, $code = 500)
+    public static function abort($msg = "Something went wrong.", $code = 500)
     {
-        if (!$msg)
-            $msg = "Something went wrong. Please try again later.";
-
         return response()->json(self::generate(null, $msg), $code);
     }
 
