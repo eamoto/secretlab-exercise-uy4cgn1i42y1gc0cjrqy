@@ -38,13 +38,13 @@ class VersionObjectController extends Controller
         //TODO. empty string value
 
         if ($validator->fails())
-            return APIResponse::abortValidation($validator);
+            return APIResponse::abortValidator($validator);
 
         $list = request()->post();
         $versionObject = VersionObject::generate($list);
 
         if (!$versionObject)
-            return APIResponse::abort("Unable to generate version. Please try again.", 422);
+            return APIResponse::abort("Unable to save object. Please try again.", 422);
 
         return APIResponse::send($versionObject->getData());
     }
@@ -56,7 +56,7 @@ class VersionObjectController extends Controller
         ]);
 
         if ($validator->fails())
-            return APIResponse::abortValidation($validator);
+            return APIResponse::abortValidator($validator);
 
         $timestamp = request()->get("timestamp");
         $versionObject = VersionObject::search($key, $timestamp);
@@ -68,5 +68,4 @@ class VersionObjectController extends Controller
 
         return APIResponse::send($versionObject->getData());
     }
-
 }
