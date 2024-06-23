@@ -1,0 +1,29 @@
+name: Test and Deploy Laravel to Prod Server
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+
+    - name: Executing Remote SSH Commands
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.PRODUCTION_SERVER }}
+        username: ${{ secrets.PRODUCTION_USER }}
+        key: ${{ secrets.PRODUCTION_KEY }}
+        port: ${{ secrets.PRODUCTION_PORT }}
+        script: |
+          cd ${{ secrets.PRODUCTION_PATH }}
+          php artisan down
+          git pull origin master
+          php artisan migrate --force
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+          php artisan up
