@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\VersionObjectController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +16,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'object'], function () {
+    Route::post('/', [VersionObjectController::class, 'store']);
+    Route::get('/get_all_records', [VersionObjectController::class, 'index']);
+    Route::get('/{key}', [VersionObjectController::class, 'show']);
+    
 });
+
+Route::any('{catchall}', function (Request $request) {
+    return response()->json(["message" => "Page Not Found"], 404);
+})->where('catchall', '.*');
