@@ -3,7 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Helpers\APIResponse;
 use App\Http\Controllers\VersionObjectController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,5 +26,5 @@ Route::group(['prefix' => 'object'], function () {
 });
 
 Route::any('{catchall}', function (Request $request) {
-    return response()->json(["message" => "Page Not Found"], 404);
+    return APIResponse::abort404();
 })->where('catchall', '.*');

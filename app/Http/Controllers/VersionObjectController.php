@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\VersionObject;
+use App\Helpers\APIResponse;
 
 class VersionObjectController extends Controller
 {
-
-
     public function index()
     {
         $versionObjects = [];
@@ -17,10 +16,7 @@ class VersionObjectController extends Controller
         foreach (VersionObject::all() as $vo)
             $versionObjects[] = $vo->getData();
 
-        return response()->json([
-            "message" => "",
-            "data" => $versionObjects,
-        ]);
+        return APIResponse::send($versionObjects);
     }
 
     public function store(Request $request)
@@ -30,30 +26,27 @@ class VersionObjectController extends Controller
             "values" => array_values($request->all()),
         ], [
             'keys' => 'required|array|max:1|min:1',
-            'keys.*' => 'required',
-            'values.*' => 'required',
+            'keys.0' => 'required',
+            'values.0' => 'required',
+        ], [], [
+            "keys.0" => "key",
+            "values.0" => "value",
         ]);
 
-        //TODO. Length of keys and values.
         //TODO. validation if array or string
         //TODO. {"111" : []}
         //TODO. empty string value
 
-        if ($validator->fails()) {
-            return response()->json(["message" => $validator->errors()->getMessages()], 422);
-        }
+        if ($validator->fails())
+            return APIResponse::abortValidation($validator);
 
         $list = request()->post();
         $versionObject = VersionObject::generate($list);
 
-        if (!$versionObject) {
-            return response()->json(["message" => "Page Not Found"], 404);
-        }
+        if (!$versionObject)
+            return APIResponse::abort("Unable to generate version. Please try again.", 422);
 
-        return response()->json([
-            "message" => "",
-            "data" => $versionObject->getData(),
-        ]);
+        return APIResponse::send($versionObject->getData());
     }
 
     public function show(Request $request, $key)
@@ -62,24 +55,18 @@ class VersionObjectController extends Controller
             'timestamp' => 'nullable|integer',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(["message" => $validator->errors()->getMessages()], 422);
-        }
+        if ($validator->fails())
+            return APIResponse::abortValidation($validator);
 
         $timestamp = request()->get("timestamp");
-
         $versionObject = VersionObject::search($key, $timestamp);
 
         //TODO. timestamp should be timestamp
 
-        if (!$versionObject) {
-            return response()->json(["message" => "Page Not Found"], 404);
-        }
+        if (!$versionObject)
+            return APIResponse::abort404();
 
-        return response()->json([
-            "message" => "",
-            "data" => $versionObject->getData(),
-        ]);
+        return APIResponse::send($versionObject->getData());
     }
 
 }
