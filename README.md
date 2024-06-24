@@ -9,23 +9,27 @@
 
 #### Add Object Version
 
+Saves the key-value pair to the database.
+
 ```http
   POST https://phpstack-694833-4667522.cloudwaysapps.com/api/object
 ```
 
 | Parameter | Type     | Description                 |
 | :-------- | :------- | :-------------------------  |
-| -         | `json`   | **Required**. A single-key JSON object where the key is a string and the value must be either a **string** or another **JSON**.  Numeric types for values are not permitted. |
+| -         | `json`   | **Required**. A single-key JSON object where the key is a string and the value must be either a **string** or another **JSON**.  **Numeric types for values are not permitted.** |
 
 #### Get Object Version
+
+Returns the latest value of the key, or if a timestamp is specified, returns the value associated with the key at that particular time.
 
 ```http
   GET https://phpstack-694833-4667522.cloudwaysapps.com/api/object/${key}
 ```
 
-| Parameter     | Type      | Description                       |
-| :--------     | :-------  | :-------------------------------- |
-| `timestamp`   | `integer` | **Optional**. Using a timestamp returns the value associated with the key at that specific time. All timestamps are in UNIX format based on the UTC timezone. |
+| Parameter     | Type      | Description                                   |
+| :--------     | :-------  | :--------------------------------             |
+| `timestamp`   | `integer` | **Optional**. UNIX format in the UTC timezone |
 
 #### Get All Object Versions
 
