@@ -52,4 +52,22 @@ class VersionObjectControllerUpdateTest extends TestCase
             ->assertJsonPath("data.key", "mykey")
             ->assertJsonPath("data.value", "value 01");
     }
+
+    public function test_update_value_and_request_invalid_timestamp(): void
+    {
+        $this->postJson('/api/object/', ["mykey" => "value 01"]);
+        $this->postJson('/api/object/', ["mykey" => "value 02"]);
+
+        $resFi = $this->get('/api/object/' . "mykey?timestamp=hello");
+        $resFi->assertUnprocessable();
+    }
+
+    public function test_update_value_and_request_not_existing_key(): void
+    {
+        $this->postJson('/api/object/', ["mykey" => "value 01"]);
+        $this->postJson('/api/object/', ["mykey" => "value 02"]);
+
+        $resFi = $this->get('/api/object/' . "unknown-key");
+        $resFi->assertNotFound();
+    }
 }
