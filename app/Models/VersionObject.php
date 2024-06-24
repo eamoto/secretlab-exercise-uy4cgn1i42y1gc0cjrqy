@@ -52,6 +52,9 @@ class VersionObject extends Model
         if (!self::validateValue($value))
             return null;
 
+        if (strlen($key) > 255)
+            return null;
+
         if (is_array($value))
             $value = json_encode($value);
 
@@ -80,10 +83,18 @@ class VersionObject extends Model
         if (!in_array(gettype($value), ["string", "array"]))
             return false;
 
+        $stringValue = $value;
+
         if (is_string($value))
             $value = trim($value);
 
+        if (is_array($value))
+            $stringValue = json_encode($value);
+
         if ($value === "")
+            return false;
+
+        if (strlen($stringValue) >= 1000000)
             return false;
 
         return true;
