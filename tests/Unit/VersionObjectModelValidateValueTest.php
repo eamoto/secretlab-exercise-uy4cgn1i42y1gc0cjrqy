@@ -53,10 +53,16 @@ class VersionObjectModelValidateValueTest extends TestCase
         $this->assertFalse($o);
     }
 
-    public function test_validate_version_object_value_number(): void
+    public function test_validate_version_object_value_integer(): void
     {
         $o = VersionObject::validateValue(1);
-        $this->assertFalse($o);
+        $this->assertTrue($o);
+    }
+
+    public function test_validate_version_object_value_double(): void
+    {
+        $o = VersionObject::validateValue(1.111111);
+        $this->assertTrue($o);
     }
 
     public function test_validate_version_object_value_numeric_string(): void

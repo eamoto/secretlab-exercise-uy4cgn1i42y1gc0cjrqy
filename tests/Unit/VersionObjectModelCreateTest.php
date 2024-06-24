@@ -57,10 +57,24 @@ class VersionObjectModelCreateTest extends TestCase
         $this->assertEquals(null, $o);
     }
 
-    public function test_create_version_object_with_number_value(): void
+    public function test_create_version_object_with_integer_value(): void
     {
         $o = VersionObject::generate(["test" => 111]);
-        $this->assertEquals(null, $o);
+        $v = $o->getData();
+
+        $this->assertInstanceOf(VersionObject::class, $o);
+        $this->assertEquals('test', $v["key"]);
+        $this->assertEquals(111, $v["value"]);
+    }
+
+    public function test_validate_version_object_value_double(): void
+    {
+        $o = VersionObject::generate(["test" => 1.1111]);
+        $v = $o->getData();
+
+        $this->assertInstanceOf(VersionObject::class, $o);
+        $this->assertEquals('test', $v["key"]);
+        $this->assertEquals(1.1111, $v["value"]);
     }
 
     public function test_create_version_object_with_empty_array_value(): void

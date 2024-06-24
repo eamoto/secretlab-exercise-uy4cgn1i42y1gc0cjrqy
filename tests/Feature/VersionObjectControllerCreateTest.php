@@ -43,10 +43,16 @@ class VersionObjectControllerCreateTest extends TestCase
         $res->assertUnprocessable();
     }
 
-    public function test_create_version_object_with_number_value(): void
+    public function test_create_version_object_with_integer_value(): void
     {
         $res = $this->postJson('/api/object/', ["mykey" => 111]);
-        $res->assertUnprocessable();
+        $res->assertStatus(200);
+    }
+
+    public function test_create_version_object_with_double_value(): void
+    {
+        $res = $this->postJson('/api/object/', ["mykey" => 111.11111]);
+        $res->assertStatus(200);
     }
 
     public function test_create_version_object_with_empty_array_value(): void
