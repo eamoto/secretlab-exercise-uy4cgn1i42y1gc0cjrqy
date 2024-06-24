@@ -16,10 +16,10 @@ class APIResponse
         );
     }
 
-    public static function abort($msg = "Something went wrong.", $code = 500)
-    {
-        return response()->json(self::generate(null, $msg), $code);
-    }
+    //public static function abort($msg = "Something went wrong.", $code = 500)
+    //{
+    //    return response()->json(self::generate(null, $msg), $code);
+    //}
 
     public static function send($data = [], $msg = null, $code = 200)
     {

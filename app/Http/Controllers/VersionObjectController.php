@@ -39,9 +39,6 @@ class VersionObjectController extends Controller
         $list = request()->post();
         $versionObject = VersionObject::generate($list);
 
-        if (!$versionObject)
-            return APIResponse::abort("Unable to save object. Please try again.", 422);
-
         return APIResponse::send($versionObject->getData());
     }
 
