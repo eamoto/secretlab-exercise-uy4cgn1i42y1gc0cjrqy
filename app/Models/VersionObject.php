@@ -86,7 +86,7 @@ class VersionObject extends Model
 
     public static function validateValue($value = null)
     {
-        if (!in_array(gettype($value), ["string", "array"]))
+        if (!in_array(gettype($value), ["string", "array", "integer", "double"]))
             return false;
 
         $stringValue = $value;

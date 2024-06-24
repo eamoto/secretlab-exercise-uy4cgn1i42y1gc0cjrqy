@@ -17,7 +17,7 @@ Saves the key-value pair to the database.
 
 | Parameter | Type     | Description                 |
 | :-------- | :------- | :-------------------------  |
-| -         | `json`   | **Required**. A single-key JSON object where the key is a string and the value must be either a **string** or another **JSON**.  **Numeric types for values are not permitted.** |
+| -         | `json`   | **Required**. A single-key JSON object where the key is a string and the value must be either a **string** or another **JSON**. |
 
 #### Get Object Version
 
