@@ -5,13 +5,13 @@ class APIResponse
 {
     public static function abort404($msg = "The resources was not found.")
     {
-        return response()->json(self::generate(null, $msg), 404);
+        return response()->json(self::generate(null, $msg, 404), 404);
     }
 
     public static function abortValidator($validator)
     {
         return response()->json(
-            self::generate(null, array_merge(...array_values($validator->errors()->getMessages()))),
+            self::generate(null, array_merge(...array_values($validator->errors()->getMessages())), 422),
             422
         );
     }
@@ -26,7 +26,7 @@ class APIResponse
         return response()->json(self::generate($data, $msg), $code);
     }
 
-    public static function generate($data = null, $msg = null)
+    public static function generate($data = null, $msg = null, $code = 200)
     {
         if ($msg === null)
             $msg = [];
@@ -35,7 +35,8 @@ class APIResponse
             $msg = [$msg];
 
         $result = [
-            "messages" => $msg
+            "code" =>  $code,
+            "messages" => $msg,
         ];
 
         if ($data !== null)
