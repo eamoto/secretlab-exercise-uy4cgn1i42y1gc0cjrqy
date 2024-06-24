@@ -37,6 +37,7 @@ class VersionObject extends Model
             "value" => $value,
         ];
     }
+    
     public static function generate($pair = null)
     {
         if(!is_array($pair)) 
