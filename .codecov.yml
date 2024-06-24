@@ -1,2 +1,4 @@
 ignore:
   - app/Console
+  - app/Providers
+  - app/App/Middleware
