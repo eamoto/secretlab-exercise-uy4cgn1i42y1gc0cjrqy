@@ -55,7 +55,7 @@ class VersionObjectController extends Controller
             return APIResponse::abortValidator($validator);
 
         $timestamp = request()->get("timestamp");
-        $versionObject = VersionObject::search($key, $timestamp);
+        $versionObject = VersionObject::lookUp($key, $timestamp);
 
         if (!$versionObject)
             return APIResponse::abort404();

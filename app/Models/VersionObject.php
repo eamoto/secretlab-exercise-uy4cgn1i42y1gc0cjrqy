@@ -37,9 +37,11 @@ class VersionObject extends Model
             "value" => $value,
         ];
     }
-
-    public static function generate($pair)
+    public static function generate($pair = null)
     {
+        if(!is_array($pair)) 
+            return null;
+
         $key = array_keys($pair);
         $value = array_values($pair);
 
@@ -66,8 +68,11 @@ class VersionObject extends Model
         ]);
     }
 
-    public static function search($key, $timestamp)
+    public static function lookUp($key = null, $timestamp = null)
     {
+        if (!$key)
+            return null;
+
         $versionObject = VersionObject::where("key", $key);
 
         if ($timestamp)
@@ -78,7 +83,7 @@ class VersionObject extends Model
             ->first();
     }
 
-    public static function validateValue($value)
+    public static function validateValue($value = null)
     {
         if (!in_array(gettype($value), ["string", "array"]))
             return false;
