@@ -15,6 +15,7 @@ class VersionObjectModelValidateValueTest extends TestCase
     {
         $o = VersionObject::validateValue("Value");
         $this->assertTrue($o);
+        $this->assertTrue(false);
     }
 
     public function test_validate_version_object_value_array(): void
