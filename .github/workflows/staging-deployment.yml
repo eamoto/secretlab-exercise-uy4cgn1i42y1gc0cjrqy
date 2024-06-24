@@ -18,6 +18,7 @@ jobs:
       with:
         php-version: 8.2
         extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml
+        coverage: pcov
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
@@ -36,7 +37,13 @@ jobs:
         php artisan config:cache
 
     - name: Run tests
-      run: php artisan test
+      run: php artisan test --coverage --coverage-clover storage/coverage/coverage.xml
+    
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v4.0.1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./storage/coverage/coverage.xml
 
   deploy:
     runs-on: ubuntu-latest
