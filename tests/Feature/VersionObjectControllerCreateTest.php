@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class VersionObjectControllerCreateTest extends TestCase
 {
-    //use RefreshDatabase;
+    use RefreshDatabase;
 
     public function test_create_version_object(): void
     {
