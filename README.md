@@ -33,8 +33,9 @@ Returns the latest value of the key, or if a timestamp is specified, returns the
 
 #### Get All Object Versions
 
+Returns a JSON array containing all record data and their values currently stored in the database.
+
 ```http
   GET https://phpstack-694833-4667522.cloudwaysapps.com/api/object/get_all_records
 ```
 
-Returns a JSON array containing all record data and their values currently stored in the database.

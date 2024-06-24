@@ -1,4 +1,4 @@
 ignore:
   - app/Console
   - app/Providers
-  - app/App/Middleware
+  - app/App/Middleware  #unused as of the moment.
