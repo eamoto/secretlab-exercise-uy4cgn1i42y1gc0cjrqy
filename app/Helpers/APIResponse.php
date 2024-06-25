@@ -3,7 +3,7 @@ namespace App\Helpers;
 
 class APIResponse
 {
-    public static function abort404($msg = "The resources was not found.")
+    public static function abort404($msg = "The resources were not found.")
     {
         return response()->json(self::generate(null, $msg, 404), 404);
     }
