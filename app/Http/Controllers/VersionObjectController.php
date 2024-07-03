@@ -47,7 +47,8 @@ class VersionObjectController extends Controller
             $temp[$k] = $v;
 
             $versionObject = VersionObject::generate($temp);
-            $finalResult[] = $versionObject->getData();
+            if ($versionObject)
+                $finalResult[] = $versionObject->getData();
         }
 
         return APIResponse::send($finalResult);
