@@ -25,24 +25,32 @@ class VersionObjectController extends Controller
             "keys" => array_keys($request->all()),
             "values" => array_values($request->all()),
         ], [
-            'keys' => 'required|array|max:1|min:1',
-            'values' => 'required|array|max:1|min:1',
-            'keys.0' => 'max:255',
-            'values.0' => 'version_object_value',
+            'keys' => 'required|array|max:2|min:1',
+            'values' => 'required|array|max:2|min:1',
+            'keys.*' => 'max:255',
+            'values.*' => 'version_object_value',
         ], [], [
             'keys' => "key",
             'values' => "value",
-            'keys.0' => "key",
-            'values.0' => "value",
+            'keys.*' => "key",
+            'values.*' => "value",
         ]);
 
         if ($validator->fails())
             return APIResponse::abortValidator($validator);
 
         $list = request()->post();
-        $versionObject = VersionObject::generate($list);
+        $finalResult = [];
 
-        return APIResponse::send($versionObject->getData());
+        foreach ($list as $k => $v) {
+            $temp = [];
+            $temp[$k] = $v;
+
+            $versionObject = VersionObject::generate($temp);
+            $finalResult[] = $versionObject->getData();
+        }
+
+        return APIResponse::send($finalResult);
     }
 
     public function show(Request $request, $key)

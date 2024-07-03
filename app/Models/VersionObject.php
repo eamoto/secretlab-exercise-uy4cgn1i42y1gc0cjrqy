@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Enums\VersionObjectStatus;
+use App\Services\VersionObjectValidator;
 
 class VersionObject extends Model
 {
@@ -37,10 +38,10 @@ class VersionObject extends Model
             "value" => $value,
         ];
     }
-    
+
     public static function generate($pair = null)
     {
-        if(!is_array($pair)) 
+        if (!is_array($pair))
             return null;
 
         $key = array_keys($pair);
@@ -52,7 +53,7 @@ class VersionObject extends Model
         $key = $key[0];
         $value = $value[0];
 
-        if (!self::validateValue($value))
+        if (!VersionObjectValidator::do($value))
             return null;
 
         if (strlen($key) > 255)
@@ -77,16 +78,17 @@ class VersionObject extends Model
         $versionObject = VersionObject::where("key", $key);
 
         if ($timestamp)
-            $versionObject->where("utc_timestamp", $timestamp);
+            $versionObject->where("utc_timestamp", '<=', $timestamp);
 
         return $versionObject
             ->orderBy("id", "desc")
             ->first();
     }
 
+    /*
     public static function validateValue($value = null)
     {
-        if (!in_array(gettype($value), ["string", "array", "integer", "double"]))
+        if (!in_array(gettype($value), ["string", "array", "integer", "double", "NULL" ]))
             return false;
 
         $stringValue = $value;
@@ -105,4 +107,5 @@ class VersionObject extends Model
 
         return true;
     }
+    */
 }
