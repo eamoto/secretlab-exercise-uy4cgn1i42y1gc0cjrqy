@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\VersionObject;
 //use PHPUnit\Framework\TestCase;
 use Tests\TestCase;
+use App\Services\VersionObjectValidator;
 
 class VersionObjectModelValidateValueTest extends TestCase
 {
@@ -13,67 +14,67 @@ class VersionObjectModelValidateValueTest extends TestCase
 
     public function test_validate_version_object_value_string(): void
     {
-        $o = VersionObject::validateValue("Value");
+        $o = VersionObjectValidator::do("Value");
         $this->assertTrue($o);
     }
 
     public function test_validate_version_object_value_array(): void
     {
-        $o = VersionObject::validateValue([1, 2, 3]);
+        $o = VersionObjectValidator::do([1, 2, 3]);
         $this->assertTrue($o);
     }
 
     public function test_validate_version_object_no_parameter(): void
     {
-        $o = VersionObject::validateValue();
-        $this->assertFalse($o);
+        $o = VersionObjectValidator::do();
+        $this->assertTrue($o);
     }
 
     public function test_validate_version_object_value_assoc_array(): void
     {
-        $o = VersionObject::validateValue(["test" => 1, "test2" => 2]);
+        $o = VersionObjectValidator::do(["test" => 1, "test2" => 2]);
         $this->assertTrue($o);
     }
 
     public function test_validate_version_object_value_null(): void
     {
-        $o = VersionObject::validateValue(null);
-        $this->assertFalse($o);
+        $o = VersionObjectValidator::do(null);
+        $this->assertTrue($o);
     }
 
     public function test_validate_version_object_value_empty_string(): void
     {
-        $o = VersionObject::validateValue("");
+        $o = VersionObjectValidator::do("");
         $this->assertFalse($o);
     }
 
     public function test_validate_version_object_value_spaces(): void
     {
-        $o = VersionObject::validateValue("           ");
+        $o = VersionObjectValidator::do("           ");
         $this->assertFalse($o);
     }
 
     public function test_validate_version_object_value_integer(): void
     {
-        $o = VersionObject::validateValue(1);
+        $o = VersionObjectValidator::do(1);
         $this->assertTrue($o);
     }
 
     public function test_validate_version_object_value_double(): void
     {
-        $o = VersionObject::validateValue(1.111111);
+        $o = VersionObjectValidator::do(1.111111);
         $this->assertTrue($o);
     }
 
     public function test_validate_version_object_value_numeric_string(): void
     {
-        $o = VersionObject::validateValue("1");
+        $o = VersionObjectValidator::do("1");
         $this->assertTrue($o);
     }
 
     public function test_validate_version_object_value_empty_array(): void
     {
-        $o = VersionObject::validateValue([]);
+        $o = VersionObjectValidator::do([]);
         $this->assertTrue($o);
     }
 
@@ -94,7 +95,7 @@ class VersionObjectModelValidateValueTest extends TestCase
             $arr[] = $str;
         }
 
-        $o = VersionObject::validateValue(implode("\n", $arr));
+        $o = VersionObjectValidator::do(implode("\n", $arr));
         $this->assertFalse($o);
     }
 
@@ -115,7 +116,7 @@ class VersionObjectModelValidateValueTest extends TestCase
             $arr[] = $str;
         }
 
-        $o = VersionObject::validateValue($arr);
+        $o = VersionObjectValidator::do($arr);
         $this->assertFalse($o);
     }
 }

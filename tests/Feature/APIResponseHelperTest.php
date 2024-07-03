@@ -19,7 +19,7 @@ class APIResponseHelperTest extends TestCase
 
     public function test_api_response_structure_fail(): void
     {
-        $res = $this->postJson('/api/object/', ["mykey" => null]);
+        $res = $this->postJson('/api/object/', []);
         $res->assertUnprocessable()
             ->assertJsonStructure(["code", "messages"]);
     }

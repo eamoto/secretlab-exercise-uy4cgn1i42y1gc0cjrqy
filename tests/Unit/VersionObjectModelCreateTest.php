@@ -42,7 +42,13 @@ class VersionObjectModelCreateTest extends TestCase
     public function test_create_version_object_with_null_value(): void
     {
         $o = VersionObject::generate(["test" => null]);
-        $this->assertEquals(null, $o);
+        $v = $o->getData();
+
+        $this->assertInstanceOf(VersionObject::class, $o);
+        $this->assertEquals('test', $v["key"]);
+        $this->assertEquals(null, $v["value"]);
+
+        //$this->assertEquals(null, $o);
     }
 
     public function test_create_version_object_with_empty_string_value(): void

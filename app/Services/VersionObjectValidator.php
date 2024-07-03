@@ -3,7 +3,7 @@ namespace App\Services;
 
 class VersionObjectValidator
 {
-    public static function do($value)
+    public static function do($value = null)
     {
         if (!in_array(gettype($value), ["string", "array", "integer", "double", "NULL"]))
             return false;
